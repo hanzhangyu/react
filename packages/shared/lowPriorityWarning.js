@@ -19,9 +19,15 @@
  * same logic and follow the same code paths.
  */
 
+// 低优先级的警告，当条件不成立是错误会被console.warn，而不像invariant一样被直接抛出
 var lowPriorityWarning = function() {};
 
 if (__DEV__) {
+  /**
+   * 正则打印warning
+   * @param format
+   * @param args
+   */
   const printWarning = function(format, ...args) {
     var argIndex = 0;
     var message = 'Warning: ' + format.replace(/%s/g, () => args[argIndex++]);
@@ -30,8 +36,9 @@ if (__DEV__) {
     }
     try {
       // --- Welcome to debugging React ---
-      // This error was thrown as a convenience so that you can use this stack
-      // to find the callsite that caused this warning to fire.
+      // This error was thrown as a convenience so that you can use this stack 这个错误是为了方便使用而抛出的，因此可以使用这个栈。
+      // to find the callsite that caused this warning to fire. 找到引起这个warning的调用位置
+      // TODO 这句话不是很理解
       throw new Error(message);
     } catch (x) {}
   };

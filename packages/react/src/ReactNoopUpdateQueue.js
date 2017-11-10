@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import warning from 'fbjs/lib/warning';
+import warning from 'fbjs/lib/warning'; // 与invariant不一样的是当条件不成立是错误会被捕获并console.error
 
 var didWarnStateUpdateForUnmountedComponent = {};
 

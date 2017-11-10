@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import emptyObject from 'fbjs/lib/emptyObject';
-import invariant from 'fbjs/lib/invariant';
+import emptyObject from 'fbjs/lib/emptyObject'; // {}，当为dev时使用freeze冻结
+import invariant from 'fbjs/lib/invariant'; // 验证是否正确，invariant(condition, format, a, b, c, d, e, f) condition(判断条件) format(错误提示支持%s在使用replace正则替换) a...f(正则替换参数)
 import lowPriorityWarning from 'shared/lowPriorityWarning';
 
 import ReactNoopUpdateQueue from './ReactNoopUpdateQueue';
