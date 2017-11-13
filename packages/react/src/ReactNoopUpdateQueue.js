@@ -9,7 +9,7 @@ import warning from 'fbjs/lib/warning'; // 与invariant不一样的是当条件�
 
 var didWarnStateUpdateForUnmountedComponent = {};
 
-function warnNoop(publicInstance, callerName) {
+function warnNoop(publicInstance, callerName) { // 更新一个已经卸载的组件进行提示
   if (__DEV__) {
     var constructor = publicInstance.constructor;
     const componentName =
@@ -33,11 +33,11 @@ function warnNoop(publicInstance, callerName) {
 }
 
 /**
- * This is the abstract API for an update queue.
+ * This is the abstract API for an update queue. react 等待更新队列
  */
 var ReactNoopUpdateQueue = {
   /**
-   * Checks whether or not this composite component is mounted.
+   * Checks whether or not this composite component is mounted. 检查此复合组件是否安装
    * @param {ReactClass} publicInstance The instance we want to test.
    * @return {boolean} True if mounted, false otherwise.
    * @protected
@@ -49,13 +49,13 @@ var ReactNoopUpdateQueue = {
 
   /**
    * Forces an update. This should only be invoked when it is known with
-   * certainty that we are **not** in a DOM transaction.
+   * certainty that we are **not** in a DOM transaction.  强制更新。只有确定不在DOM事务中时，才应该调用它
    *
    * You may want to call this when you know that some deeper aspect of the
    * component's state has changed but `setState` was not called.
    *
    * This will not invoke `shouldComponentUpdate`, but it will invoke
-   * `componentWillUpdate` and `componentDidUpdate`.
+   * `componentWillUpdate` and `componentDidUpdate`. 不会在shouldComponentUpdate中调用，但是会在componentWillUpdate和componentDidUpdate中调用
    *
    * @param {ReactClass} publicInstance The instance that should rerender.
    * @param {?function} callback Called after component is updated.
@@ -67,8 +67,8 @@ var ReactNoopUpdateQueue = {
   },
 
   /**
-   * Replaces all of the state. Always use this or `setState` to mutate state.
-   * You should treat `this.state` as immutable.
+   * Replaces all of the state. Always use this or `setState` to mutate state. 更新所有state,经常使用这个或者setState来改变state
+   * You should treat `this.state` as immutable. 你需要将state看成一个不变的元素
    *
    * There is no guarantee that `this.state` will be immediately updated, so
    * accessing `this.state` after calling this method may return the old value.
