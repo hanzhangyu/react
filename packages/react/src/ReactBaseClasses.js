@@ -88,15 +88,16 @@ Component.prototype.forceUpdate = function (callback) {
  * Deprecated APIs. These APIs used to exist on classic React classes but since
  * we would like to deprecate them, we're not going to move them over to this
  * modern base class. Instead, we define a getter that warns if it's accessed.
+ * 为Deprecated APIs编写getter，并警告
  */
 if (__DEV__) {
   var deprecatedAPIs = {
-    isMounted: [
+    isMounted: [ // 以前经常在didMount中发起异步的话，你还要确认异步结束时间组件是否还在渲染，现在的建议是在willUnmount中卸载
       'isMounted',
       'Instead, make sure to clean up subscriptions and pending requests in ' +
       'componentWillUnmount to prevent memory leaks.',
     ],
-    replaceState: [
+    replaceState: [ // 直接替换state，参数不存在的值都会被删除
       'replaceState',
       'Refactor your code to use setState instead (see ' +
       'https://github.com/facebook/react/issues/3236).',
@@ -139,7 +140,7 @@ function ComponentDummy() {
 }
 
 ComponentDummy.prototype = Component.prototype;
-var pureComponentPrototype = (PureComponent.prototype = new ComponentDummy());
+var pureComponentPrototype = (PureComponent.prototype = new ComponentDummy()); // 暴露引用用于修改，使用Object.create不能暴露这个引用
 pureComponentPrototype.constructor = PureComponent;
 // Avoid an extra prototype jump for these methods.
 Object.assign(pureComponentPrototype, Component.prototype);
