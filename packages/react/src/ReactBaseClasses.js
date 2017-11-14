@@ -7,56 +7,61 @@
 
 import emptyObject from 'fbjs/lib/emptyObject'; // {}，当为dev时使用freeze冻结
 import invariant from 'fbjs/lib/invariant'; // 验证是否正确，invariant(condition, format, a, b, c, d, e, f) condition(判断条件) format(错误提示支持%s在使用replace正则替换) a...f(正则替换参数)
-import lowPriorityWarning from 'shared/lowPriorityWarning';
+import lowPriorityWarning from 'shared/lowPriorityWarning'; // 低优先级的提示
 
-import ReactNoopUpdateQueue from './ReactNoopUpdateQueue';
+import ReactNoopUpdateQueue from './ReactNoopUpdateQueue'; //  react 等待更新队列
 
 /**
  * Base class helpers for the updating state of a component.
+ * @param props
+ * @param context
+ * @param updater
+ * @constructor
  */
 function Component(props, context, updater) {
   this.props = props;
+  console.log('context in the component instantiate', context);
   this.context = context;
   this.refs = emptyObject;
   // We initialize the default updater but the real one gets injected by the
   // renderer.
-  this.updater = updater || ReactNoopUpdateQueue;
+  this.updater = updater || ReactNoopUpdateQueue; // 设置默认更新（报warn），真正的更新函数会被renderer注入
 }
 
 Component.prototype.isReactComponent = {};
 
 /**
- * Sets a subset of the state. Always use this to mutate
- * state. You should treat `this.state` as immutable.
+ * Sets a subset（子集） of the state. Always use this to mutate（突变）
+ * state. You should treat（对待） `this.state` as immutable.
  *
  * There is no guarantee that `this.state` will be immediately updated, so
  * accessing `this.state` after calling this method may return the old value.
  *
  * There is no guarantee that calls to `setState` will run synchronously,
- * as they may eventually be batched together.  You can provide an optional
+ * as they may eventually be batched together（可能会被收集在一起）.  You can provide an optional
  * callback that will be executed when the call to setState is actually
  * completed.
  *
  * When a function is provided to setState, it will be called at some point in
- * the future (not synchronously). It will be called with the up to date
+ * the future (not synchronously)（可能会在未来某些地方被调用）. It will be called with the up to date（最新的）
  * component arguments (state, props, context). These values can be different
  * from this.* because your function may be called after receiveProps but before
  * shouldComponentUpdate, and this new state, props, and context will not yet be
- * assigned to this.
+ * assigned（分配） to this.
  *
  * @param {object|function} partialState Next partial state or function to
- *        produce next partial state to be merged with current state.
+ *        produce next partial state to be merged with current state. 部分state或者函数
  * @param {?function} callback Called after state is updated.
  * @final
  * @protected
  */
-Component.prototype.setState = function(partialState, callback) {
+Component.prototype.setState = function (partialState, callback) {
   invariant(
     typeof partialState === 'object' ||
-      typeof partialState === 'function' ||
-      partialState == null,
+    typeof partialState === 'function' ||
+    partialState == null,
     'setState(...): takes an object of state variables to update or a ' +
-      'function which returns an object of state variables.',
+    'function which returns an object of state variables.',
   );
   this.updater.enqueueSetState(this, partialState, callback, 'setState');
 };
@@ -75,7 +80,7 @@ Component.prototype.setState = function(partialState, callback) {
  * @final
  * @protected
  */
-Component.prototype.forceUpdate = function(callback) {
+Component.prototype.forceUpdate = function (callback) {
   this.updater.enqueueForceUpdate(this, callback, 'forceUpdate');
 };
 
@@ -89,17 +94,17 @@ if (__DEV__) {
     isMounted: [
       'isMounted',
       'Instead, make sure to clean up subscriptions and pending requests in ' +
-        'componentWillUnmount to prevent memory leaks.',
+      'componentWillUnmount to prevent memory leaks.',
     ],
     replaceState: [
       'replaceState',
       'Refactor your code to use setState instead (see ' +
-        'https://github.com/facebook/react/issues/3236).',
+      'https://github.com/facebook/react/issues/3236).',
     ],
   };
-  var defineDeprecationWarning = function(methodName, info) {
+  var defineDeprecationWarning = function (methodName, info) {
     Object.defineProperty(Component.prototype, methodName, {
-      get: function() {
+      get: function () {
         lowPriorityWarning(
           false,
           '%s(...) is deprecated in plain JavaScript React classes. %s',
@@ -130,7 +135,9 @@ function PureComponent(props, context, updater) {
   this.updater = updater || ReactNoopUpdateQueue;
 }
 
-function ComponentDummy() {}
+function ComponentDummy() {
+}
+
 ComponentDummy.prototype = Component.prototype;
 var pureComponentPrototype = (PureComponent.prototype = new ComponentDummy());
 pureComponentPrototype.constructor = PureComponent;
@@ -153,7 +160,7 @@ asyncComponentPrototype.constructor = AsyncComponent;
 // Avoid an extra prototype jump for these methods.
 Object.assign(asyncComponentPrototype, Component.prototype);
 asyncComponentPrototype.unstable_isAsyncReactComponent = true;
-asyncComponentPrototype.render = function() {
+asyncComponentPrototype.render = function () {
   return this.props.children;
 };
 

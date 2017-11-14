@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 console.log('React.Component', Component);
-const reactComponent = new Component();
+const reactComponent = new Component({msg: 'test'}, {contextMsg: 'contextMsg'});
 console.log('reactComponent', reactComponent);
 
 // 一个基本的测试

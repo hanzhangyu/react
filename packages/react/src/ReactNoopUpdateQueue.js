@@ -16,7 +16,7 @@ function warnNoop(publicInstance, callerName) { // 更新一个已经卸载的�
       (constructor && (constructor.displayName || constructor.name)) ||
       'ReactClass';
     const warningKey = `${componentName}.${callerName}`;
-    if (didWarnStateUpdateForUnmountedComponent[warningKey]) {
+    if (didWarnStateUpdateForUnmountedComponent[warningKey]) { // 只提醒一次
       return;
     }
     warning(
@@ -33,7 +33,7 @@ function warnNoop(publicInstance, callerName) { // 更新一个已经卸载的�
 }
 
 /**
- * This is the abstract API for an update queue. react 等待更新队列
+ * This is the abstract API for an update queue. react等待更新队列对象的抽象API，初始化时使用这个对象，只会报warn
  */
 var ReactNoopUpdateQueue = {
   /**
