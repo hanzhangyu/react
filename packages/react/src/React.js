@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import assign from 'object-assign';
-import ReactVersion from 'shared/ReactVersion';
-import {enableReactFragment} from 'shared/ReactFeatureFlags';
+import assign from 'object-assign'; // Object.assign 竟然没用lodash说好的非官方标准库呢？
+import ReactVersion from 'shared/ReactVersion'; // 定死的版本号
+import {enableReactFragment} from 'shared/ReactFeatureFlags'; // 是否启用react片段，好像是调试用的
 
 import {Component, PureComponent, AsyncComponent} from './ReactBaseClasses';
 import {forEach, map, count, toArray, only} from './ReactChildren';

@@ -6,7 +6,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * 
+ *
  */
 
 function makeEmptyFunction(arg) {
@@ -16,9 +16,9 @@ function makeEmptyFunction(arg) {
 }
 
 /**
- * This function accepts and discards inputs; it has no side effects. This is
- * primarily useful idiomatically for overridable function endpoints which
- * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
+ * This function accepts and discards(丢弃) inputs; it has no side(副的) effects. This is
+ * primarily(首要的) useful idiomatically(惯用的) for overridable(可重写) function endpoints which
+ * always need to be callable, since JS lacks(缺乏) a null-call idiom ala Cocoa.
  */
 var emptyFunction = function emptyFunction() {};
 
