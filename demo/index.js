@@ -3,13 +3,20 @@
  * @author PaulHan
  * @date 2017/11/13
  */
-import React, {Component} from 'react';
+import React, {Component, unstable_AsyncComponent} from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
-console.log('React.Component', Component);
-const reactComponent = new Component({msg: 'test'}, {contextMsg: 'contextMsg'});
-console.log('reactComponent', reactComponent);
+
+// 查看类及实例
+// console.log('React.Component', Component);
+// const reactComponent = new Component({msg: 'test'}, {contextMsg: 'contextMsg'});
+// console.log('reactComponent', reactComponent);
+//
+// console.log('React.AsyncComponent', unstable_AsyncComponent);
+// const reactAsyncComponent = new unstable_AsyncComponent({msg: 'test'}, {contextMsg: 'contextMsg'});
+// console.log('AsyncComponent', reactAsyncComponent);
+
 
 // 一个基本的测试
 class Test extends Component {
@@ -30,8 +37,10 @@ Test.propTypes = {
   msg: PropTypes.string,
 };
 
-const testComponent = new Test({msg: 'test'});
-console.log('testComponent', testComponent);
+// 查看继承类的实例
+// const testComponent = new Test({msg: 'test'});
+// console.log('testComponent', testComponent);
+
 
 class App extends React.Component {
   render() {
@@ -41,4 +50,4 @@ class App extends React.Component {
   }
 }
 
-export default ReactDOM.render(<App/>, document.getElementById('root'));
+ReactDOM.render(<App/>, document.getElementById('root'));

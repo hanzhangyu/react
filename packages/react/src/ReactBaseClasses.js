@@ -3,6 +3,8 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
+ *
+ * 本文件的都是用于组件更新状态的基类辅助类，一共暴露了三个壳
  */
 
 import emptyObject from 'fbjs/lib/emptyObject'; // {}，当为dev时使用freeze冻结
@@ -146,7 +148,7 @@ pureComponentPrototype.constructor = PureComponent;
 Object.assign(pureComponentPrototype, Component.prototype);
 pureComponentPrototype.isPureReactComponent = true;
 
-function AsyncComponent(props, context, updater) {
+function AsyncComponent(props, context, updater) { // 异步组件，源码待发掘
   // Duplicated from Component.
   this.props = props;
   this.context = context;
