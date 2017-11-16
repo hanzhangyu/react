@@ -65,8 +65,8 @@ if (enableReactFragment) {
 if (__DEV__) {
   Object.assign(React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED, {
     // These should not be included in production.
-    ReactDebugCurrentFrame,
-    // Shim for React DOM 16.0.0 which still destructured (but not used) this.
+    ReactDebugCurrentFrame, // 获取正确的栈帧
+    // Shim for React DOM 16.0.0 which still destructured(解构) (but not used) this.
     // TODO: remove in React 17.0.
     ReactComponentTreeHook: {},
   });

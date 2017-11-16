@@ -76,7 +76,7 @@ Component.prototype.setState = function (partialState, callback) {
  * You may want to call this when you know that some deeper aspect of the
  * component's state has changed but `setState` was not called.
  *
- * This will not invoke `shouldComponentUpdate`, but it will invoke
+ * This will not invoke `shouldComponentUpdate`, but it will invoke(引起)
  * `componentWillUpdate` and `componentDidUpdate`.
  *
  * @param {?function} callback Called after update is complete.
@@ -129,7 +129,7 @@ if (__DEV__) {
 /**
  * Base class helpers for the updating state of a component.
  */
-function PureComponent(props, context, updater) {
+function PureComponent(props, context, updater) { // PureComponent 的 shouldComponentUpdate() 只会对对象进行浅对比。或许PureComponent与immutable的搭配就是我想要的
   // Duplicated from Component.
   this.props = props;
   this.context = context;

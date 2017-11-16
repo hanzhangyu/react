@@ -47,7 +47,8 @@ Test.propTypes = {
 class App extends React.Component {
   render() {
     const node = <Test msg="hello word"/>;
-    console.log(node);
+    console.log('react element', node);
+    console.log('this', this);
     return <div>{node}</div>;
   }
 }

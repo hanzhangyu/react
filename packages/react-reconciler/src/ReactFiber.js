@@ -89,7 +89,7 @@ export type Fiber = {|
   // The Fiber to return to after finishing processing(处理) this one.
   // This is effectively(事实上) the parent, but there can be multiple parents (two)
   // so this is only the parent of the thing we're currently processing.
-  // It is conceptually the same as the return address of a stack frame.
+  // It is conceptually the same as the return address of a [stack frame](栈帧（结构）).
   return: Fiber | null,
 
   // Singly(单个地) Linked List Tree Structure(结构).
