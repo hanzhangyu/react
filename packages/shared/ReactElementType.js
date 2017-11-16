@@ -12,13 +12,13 @@ export type Source = {
   lineNumber: number,
 };
 
-export type ReactElement = {
+export type ReactElement = { // 基本格式 <div></div> -> React.createElement('div') -> React Element
   $$typeof: any,
   type: any,
   key: any,
   ref: any,
   props: any,
-  _owner: any, // ReactInstance or ReactFiber
+  _owner: any, // ReactInstance or ReactFiber  // ？ 我又看见可爱的fiber了
 
   // __DEV__
   _store: {

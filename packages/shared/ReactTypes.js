@@ -27,7 +27,7 @@ export type ReactCall = {
   $$typeof: Symbol | number,
   key: null | string,
   children: any,
-  // This should be a more specific CallHandler
+  // This should be a more specific(具体的) CallHandler
   handler: (props: any, returns: Array<mixed>) => ReactNodeList,
   props: any,
 };
@@ -42,6 +42,6 @@ export type ReactPortal = {
   key: null | string,
   containerInfo: any,
   children: ReactNodeList,
-  // TODO: figure out the API for cross-renderer implementation.
+  // TODO: figure out the API for cross-renderer(交叉渲染) implementation(安装启用).
   implementation: any,
 };

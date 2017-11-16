@@ -4,8 +4,11 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ * 伟大的fiber我终于来找你了，我的理解是模拟的调用栈，待考证
+ * 似乎他们吧fiber称作effect
  */
 
+// flow 导入类型
 import type {ReactElement, Source} from 'shared/ReactElementType';
 import type {
   ReactCall,
@@ -53,42 +56,43 @@ if (__DEV__) {
 
 // A Fiber is work on a Component that needs to be done or was done. There can
 // be more than one per component.
+// fiber是在需要完成或完成的组件上工作的。一个组件可以存在多个fiber
 export type Fiber = {|
-  // These first fields are conceptually members of an Instance. This used to
-  // be split into a separate type and intersected with the other Fiber fields,
+  // These first fields are conceptually(概念的) members of an Instance. This used to
+  // be split into a separate(单独的) type and intersected(相交) with the other Fiber fields,
   // but until Flow fixes its intersection bugs, we've merged them into a
   // single type.
 
   // An Instance is shared between all versions of a component. We can easily
   // break this out into a separate object to avoid copying so much to the
-  // alternate versions of the tree. We put this on a single object for now to
+  // alternate(代替的) versions of the tree. We put this on a single object for now to
   // minimize the number of objects created during the initial render.
 
-  // Tag identifying the type of fiber.
+  // Tag identifying(辨认) the type of fiber.
   tag: TypeOfWork,
 
-  // Unique identifier of this child.
+  // Unique identifier(标识符) of this child.
   key: null | string,
 
-  // The function/class/module associated with this fiber.
+  // The function/class/module associated(关联) with this fiber.
   type: any,
 
   // The local state associated with this fiber.
   stateNode: any,
 
-  // Conceptual aliases
-  // parent : Instance -> return The parent happens to be the same as the
+  // Conceptual(概念的) aliases
+  // parent : Instance -> return The parent happens(碰巧) to be the same as the
   // return fiber since we've merged the fiber and instance.
 
-  // Remaining fields belong to Fiber
+  // Remaining(剩余的) fields belong to Fiber
 
-  // The Fiber to return to after finishing processing this one.
-  // This is effectively the parent, but there can be multiple parents (two)
+  // The Fiber to return to after finishing processing(处理) this one.
+  // This is effectively(事实上) the parent, but there can be multiple parents (two)
   // so this is only the parent of the thing we're currently processing.
   // It is conceptually the same as the return address of a stack frame.
   return: Fiber | null,
 
-  // Singly Linked List Tree Structure.
+  // Singly(单个地) Linked List Tree Structure(结构).
   child: Fiber | null,
   sibling: Fiber | null,
   index: number,
@@ -98,8 +102,8 @@ export type Fiber = {|
   ref: null | (((handle: mixed) => void) & {_stringRef: ?string}),
 
   // Input is the data coming into process this fiber. Arguments. Props.
-  pendingProps: any, // This type will be more specific once we overload the tag.
-  memoizedProps: any, // The props used to create the output.
+  pendingProps: any, // This type will be more specific(具体的) once we overload(使超载) the tag.
+  memoizedProps: any, // The props used to create the output. // ？备忘
 
   // A queue of state updates and callbacks.
   updateQueue: UpdateQueue<any> | null,
@@ -107,37 +111,37 @@ export type Fiber = {|
   // The state used to create the output
   memoizedState: any,
 
-  // Bitfield that describes properties about the fiber and its subtree. E.g.
-  // the AsyncUpdates flag indicates whether the subtree should be async-by-
+  // Bitfield(位字段) that describes properties about the fiber and its subtree. E.g.
+  // the AsyncUpdates flag(标记) indicates(表明) whether the subtree should be async-by-
   // default. When a fiber is created, it inherits the internalContextTag of its
-  // parent. Additional flags can be set at creation time, but after than the
-  // value should remain unchanged throughout the fiber's lifetime, particularly
+  // parent. Additional(额外的) flags can be set at creation time, but after than the
+  // value should remain unchanged throughout(在...期间) the fiber's lifetime, particularly
   // before its child fibers are created.
-  internalContextTag: TypeOfInternalContext,
+  internalContextTag: TypeOfInternalContext, // ？内部的上下文标签
 
   // Effect
   effectTag: TypeOfSideEffect,
 
-  // Singly linked list fast path to the next fiber with side-effects.
+  // Singly [linked list](链表) fast path to the next fiber with side-effects.
   nextEffect: Fiber | null,
 
   // The first and last fiber with side-effect within this subtree. This allows
-  // us to reuse a slice of the linked list when we reuse the work done within
+  // us to reuse(重新使用) a slice of the linked list when we reuse the work done within
   // this fiber.
   firstEffect: Fiber | null,
   lastEffect: Fiber | null,
 
-  // Represents a time in the future by which this work should be completed.
-  // This is also used to quickly determine if a subtree has no pending changes.
-  expirationTime: ExpirationTime,
+  // Represents(代表) a time in the future by which this work should be completed.
+  // This is also used to quickly determine(判定) if a subtree has no pending changes.
+  expirationTime: ExpirationTime, // 到期时间
 
-  // This is a pooled version of a Fiber. Every fiber that gets updated will
-  // eventually have a pair. There are cases when we can clean up pairs to save
+  // This is a pooled(合并的) version of a Fiber. Every fiber that gets updated will
+  // eventually(终于) have a pair(成对). There are cases when we can clean up pairs to save
   // memory if we need to.
   alternate: Fiber | null,
 
   // Conceptual aliases
-  // workInProgress : Fiber ->  alternate The alternate used for reuse happens
+  // workInProgress(工作进度) : Fiber ->  alternate The alternate used for reuse happens
   // to be the same as work in progress.
   // __DEV__ only
   _debugID?: number,

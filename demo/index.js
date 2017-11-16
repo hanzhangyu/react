@@ -16,20 +16,22 @@ import PropTypes from 'prop-types';
 // console.log('React.AsyncComponent', unstable_AsyncComponent);
 // const reactAsyncComponent = new unstable_AsyncComponent({msg: 'test'}, {contextMsg: 'contextMsg'});
 // console.log('AsyncComponent', reactAsyncComponent);
+//
+// console.log(React.createElement('div'));
 
 
 // 一个基本的测试
 class Test extends Component {
   constructor(props) {
     super();
-    this.state = {text: props.msg}
+    this.state = {text: props.msg};
   }
 
   render() {
     const {msg} = this.props;
     return (
       <div>{msg}</div>
-    )
+    );
   }
 }
 

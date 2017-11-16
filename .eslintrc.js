@@ -1,6 +1,7 @@
 'use strict';
 
 const OFF = 0;
+const WARNING = 1; // 本地调试还是需要提示的
 const ERROR = 2;
 
 module.exports = {
@@ -31,7 +32,7 @@ module.exports = {
     'no-restricted-syntax': [ERROR, 'WithStatement'],
     'no-shadow': ERROR,
     'no-unused-expressions': ERROR,
-    'no-unused-vars': [ERROR, {args: 'none'}],
+    'no-unused-vars': [WARNING, {args: 'none'}],
     'no-useless-concat': OFF,
     'quotes': [ERROR, 'single', {avoidEscape: true, allowTemplateLiterals: true }],
     'space-before-blocks': ERROR,
@@ -43,7 +44,7 @@ module.exports = {
     'react/jsx-no-undef': ERROR,
     // We don't care to do this
     'react/jsx-sort-prop-types': OFF,
-    'react/jsx-space-before-closing': ERROR,
+    'react/jsx-space-before-closing': OFF,
     'react/jsx-uses-react': ERROR,
     'react/no-is-mounted': OFF,
     // This isn't useful in our test code

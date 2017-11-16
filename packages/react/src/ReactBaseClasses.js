@@ -8,7 +8,8 @@
  */
 
 import emptyObject from 'fbjs/lib/emptyObject'; // {}，当为dev时使用freeze冻结
-import invariant from 'fbjs/lib/invariant'; // 验证是否正确，invariant(condition, format, a, b, c, d, e, f) condition(判断条件) format(错误提示支持%s在使用replace正则替换) a...f(正则替换参数)
+// 验证是否正确，invariant(condition, format, a, b, c, d, e, f) condition(判断条件) format(错误提示支持%s在使用replace正则替换) a...f(正则替换参数)
+import invariant from 'fbjs/lib/invariant';
 import lowPriorityWarning from 'shared/lowPriorityWarning'; // 低优先级的提示
 
 import ReactNoopUpdateQueue from './ReactNoopUpdateQueue'; //  react 等待更新队列

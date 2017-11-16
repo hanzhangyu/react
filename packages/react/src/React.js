@@ -9,7 +9,7 @@ import assign from 'object-assign'; // Object.assign 竟然没用lodash说好的
 import ReactVersion from 'shared/ReactVersion'; // 定死的版本号
 import {enableReactFragment} from 'shared/ReactFeatureFlags'; // 是否启用react片段，好像是调试用的
 
-import {Component, PureComponent, AsyncComponent} from './ReactBaseClasses';
+import {Component, PureComponent, AsyncComponent} from './ReactBaseClasses'; // 三个壳
 import {forEach, map, count, toArray, only} from './ReactChildren';
 import ReactCurrentOwner from './ReactCurrentOwner';
 import {
