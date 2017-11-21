@@ -15,8 +15,9 @@ var hasOwnProperty = Object.prototype.hasOwnProperty;
 // nor polyfill, then a plain number is used for performance.
 var REACT_ELEMENT_TYPE =
   (typeof Symbol === 'function' && Symbol.for && Symbol.for('react.element')) ||
-  0xeac7;
+  0xeac7; // 十进制的60103代表React元素，嘿嘿嘿
 
+// 保留的props
 var RESERVED_PROPS = {
   key: true,
   ref: true,
@@ -24,12 +25,13 @@ var RESERVED_PROPS = {
   __source: true,
 };
 
-var specialPropKeyWarningShown, specialPropRefWarningShown;
+var specialPropKeyWarningShown, specialPropRefWarningShown; // 最多提示一次
 
-function hasValidRef(config) {
+function hasValidRef(config) { // 检查props中是否有合法的ref
   if (__DEV__) {
     if (hasOwnProperty.call(config, 'ref')) {
-      var getter = Object.getOwnPropertyDescriptor(config, 'ref').get;
+      // https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor
+      var getter = Object.getOwnPropertyDescriptor(config, 'ref').get; // 获取该对象自己的ref值的getter函数
       if (getter && getter.isReactWarning) {
         return false;
       }
@@ -38,7 +40,7 @@ function hasValidRef(config) {
   return config.ref !== undefined;
 }
 
-function hasValidKey(config) {
+function hasValidKey(config) { // 检查props中是否有合法的key
   if (__DEV__) {
     if (hasOwnProperty.call(config, 'key')) {
       var getter = Object.getOwnPropertyDescriptor(config, 'key').get;
@@ -50,6 +52,7 @@ function hasValidKey(config) {
   return config.key !== undefined;
 }
 
+// 定义(define)`key`的getter，获取时警告
 function defineKeyPropWarningGetter(props, displayName) {
   var warnAboutAccessingKey = function() {
     if (!specialPropKeyWarningShown) {
@@ -64,13 +67,14 @@ function defineKeyPropWarningGetter(props, displayName) {
       );
     }
   };
-  warnAboutAccessingKey.isReactWarning = true;
+  warnAboutAccessingKey.isReactWarning = true; // 打上标记判断是否存在合法的key时有用
   Object.defineProperty(props, 'key', {
     get: warnAboutAccessingKey,
     configurable: true,
   });
 }
 
+// 定义(define)`ref`的getter，获取时警告
 function defineRefPropWarningGetter(props, displayName) {
   var warnAboutAccessingRef = function() {
     if (!specialPropRefWarningShown) {
@@ -98,6 +102,8 @@ function defineRefPropWarningGetter(props, displayName) {
  * will work. Instead test $$typeof field against Symbol.for('react.element') to check
  * if something is a React Element.
  *
+ * 使用工厂模式去创建一个react元素，所以请使用$$typeof 字段等于 Symbol.for('react.element')验证
+ *
  * @param {*} type
  * @param {*} key
  * @param {string|object} ref
@@ -123,18 +129,18 @@ var ReactElement = function(type, key, ref, self, source, owner, props) {
     ref: ref,
     props: props,
 
-    // Record the component responsible for creating this element.
+    // Record the component [responsible for](造成...的原因) creating this element.
     _owner: owner,
   };
 
   if (__DEV__) {
-    // The validation flag is currently mutative. We put it on
-    // an external backing store so that we can freeze the whole object.
-    // This can be replaced with a WeakMap once they are implemented in
-    // commonly used development environments.
+    // The validation flag(标记) is currently mutative(变化的). We put it on
+    // an external(外部的) backing(备份) store so that we can freeze the whole object.
+    // This can be replaced with a WeakMap once they are implemented(实现) in
+    // commonly(一般地) used development environments.
     element._store = {};
 
-    // To make comparing ReactElements easier for testing purposes, we make
+    // To make comparing(比较) ReactElements easier for testing purposes(目的), we make
     // the validation flag non-enumerable (where possible, which should
     // include every environment we run tests in), so the test framework
     // ignores it.
@@ -153,6 +159,7 @@ var ReactElement = function(type, key, ref, self, source, owner, props) {
     });
     // Two elements created in two different places should be considered
     // equal for testing purposes and therefore we hide it from enumeration.
+    // 枚举的元素都是参与React diff比较的，所以这几个属性都不应该被枚举
     Object.defineProperty(element, '_source', {
       configurable: false,
       enumerable: false,
@@ -171,6 +178,10 @@ var ReactElement = function(type, key, ref, self, source, owner, props) {
 /**
  * Create and return a new ReactElement of the given type.
  * See https://reactjs.org/docs/react-api.html#createelement
+ * @param type
+ * @param config 带筛选的props
+ * @param children
+ * 多余的参数和children也会被写到props的children中
  */
 export function createElement(type, config, children) {
   var propName;
@@ -195,7 +206,7 @@ export function createElement(type, config, children) {
     source = config.__source === undefined ? null : config.__source;
     // Remaining properties are added to a new props object
     for (propName in config) {
-      if (
+      if ( // 是自己的，并且不是保留字符就写入props
         hasOwnProperty.call(config, propName) &&
         !RESERVED_PROPS.hasOwnProperty(propName)
       ) {
@@ -204,8 +215,8 @@ export function createElement(type, config, children) {
     }
   }
 
-  // Children can be more than one argument, and those are transferred onto
-  // the newly allocated props object.
+  // Children can be more than one argument, and those are transferred(被转移) onto(到...之上)
+  // the newly allocated(被分配的) props object.
   var childrenLength = arguments.length - 2;
   if (childrenLength === 1) {
     props.children = children;
@@ -222,7 +233,7 @@ export function createElement(type, config, children) {
     props.children = childArray;
   }
 
-  // Resolve default props
+  // Resolve default props 现在明白为什么要用static了吧
   if (type && type.defaultProps) {
     var defaultProps = type.defaultProps;
     for (propName in defaultProps) {

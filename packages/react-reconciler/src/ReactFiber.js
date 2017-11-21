@@ -74,7 +74,7 @@ export type Fiber = {|
   // Unique identifier(标识符) of this child.
   key: null | string,
 
-  // The function/class/module associated(关联) with this fiber.
+  // The function/class/module associated(关联) with this fiber. 与createElement的type是一样的
   type: any,
 
   // The local state associated with this fiber.

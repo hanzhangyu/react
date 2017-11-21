@@ -145,7 +145,7 @@ function ComponentDummy() {
 ComponentDummy.prototype = Component.prototype;
 var pureComponentPrototype = (PureComponent.prototype = new ComponentDummy()); // 暴露引用用于修改，使用Object.create不能暴露这个引用
 pureComponentPrototype.constructor = PureComponent;
-// Avoid an extra prototype jump for these methods.
+// Avoid an extra prototype jump for these methods. 直接复制不委托，避免一次多余的[[prototype]]跳转
 Object.assign(pureComponentPrototype, Component.prototype);
 pureComponentPrototype.isPureReactComponent = true;
 

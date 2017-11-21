@@ -66,7 +66,7 @@ if (__DEV__) {
 var ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
 var FAUX_ITERATOR_SYMBOL = '@@iterator'; // Before Symbol spec.
 
-function getDeclarationErrorAddendum() {
+function getDeclarationErrorAddendum() { // declaration(声明)
   if (ReactCurrentOwner.current) {
     var name = getComponentName(ReactCurrentOwner.current);
     if (name) {
@@ -76,7 +76,7 @@ function getDeclarationErrorAddendum() {
   return '';
 }
 
-function getSourceInfoErrorAddendum(elementProps) {
+function getSourceInfoErrorAddendum(elementProps) { // addendum(附加物)
   if (
     elementProps !== null &&
     elementProps !== undefined &&
@@ -271,12 +271,13 @@ export function createElementWithValidation(type, props, children) {
   var validType =
     typeof type === 'string' ||
     typeof type === 'function' ||
-    typeof type === 'symbol' ||
-    typeof type === 'number';
+    typeof type === 'symbol' || // ？ WTF 也报错
+    typeof type === 'number'; // ？ WTF 报错啊。。。
   // We warn in this case but don't throw. We expect the element creation to
   // succeed and there will likely be errors in render.
   if (!validType) {
     var info = '';
+    // 忘记export
     if (
       type === undefined ||
       (typeof type === 'object' &&
@@ -288,13 +289,13 @@ export function createElementWithValidation(type, props, children) {
         "it's defined in, or you might have mixed up default and named imports.";
     }
 
-    var sourceInfo = getSourceInfoErrorAddendum(props);
+    var sourceInfo = getSourceInfoErrorAddendum(props); // 获取createElement调用的地方
     if (sourceInfo) {
       info += sourceInfo;
     } else {
-      info += getDeclarationErrorAddendum();
+      info += getDeclarationErrorAddendum(); // 获取产生错误的节点名
     }
-
+    // currentlyValidatingElement在这里是没有启用的，也就是说它只是单纯想走最后一步获取栈帧的附加物
     info += getStackAddendum() || '';
 
     warning(

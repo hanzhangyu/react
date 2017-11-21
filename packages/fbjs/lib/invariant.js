@@ -39,6 +39,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
     } else {
       var args = [a, b, c, d, e, f];
       var argIndex = 0;
+      // 抛出错误方便调用栈跟踪
       error = new Error(format.replace(/%s/g, function () {
         return args[argIndex++];
       }));

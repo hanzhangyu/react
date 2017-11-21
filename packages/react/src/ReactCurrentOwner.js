@@ -10,7 +10,7 @@
 import type {Fiber} from 'react-reconciler/src/ReactFiber';
 
 /**
- * Keeps track of the current owner. 跟踪当前所有者
+ * Keeps track of the current owner. 记录实例化的父组件，就是最后一次调用createElement方法的元素
  *
  * The current owner is the component who should own any components that are
  * currently being constructed.
