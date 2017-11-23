@@ -13,20 +13,23 @@ import {isValidElement, cloneAndReplaceKey} from './ReactElement';
 import ReactDebugCurrentFrame from './ReactDebugCurrentFrame';
 
 var ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
-var FAUX_ITERATOR_SYMBOL = '@@iterator'; // Before Symbol spec.
+var FAUX_ITERATOR_SYMBOL = '@@iterator'; // Before Symbol spec. // faux(人工的)
 // The Symbol used to tag the ReactElement type. If there is no native Symbol
-// nor polyfill, then a plain number is used for performance.
+// nor(也不) polyfill, then a plain(普通的) number is used for performance(性能).
+// 为什么这个也要到处贴而不是使用module
 var REACT_ELEMENT_TYPE =
   (typeof Symbol === 'function' && Symbol.for && Symbol.for('react.element')) ||
   0xeac7;
+// ？为什么portal会被定义到这里，难道是React里面只是个标记，实现是在DOM里面
 const REACT_PORTAL_TYPE =
   (typeof Symbol === 'function' && Symbol.for && Symbol.for('react.portal')) ||
   0xeaca;
-var SEPARATOR = '.';
-var SUBSEPARATOR = ':';
+var SEPARATOR = '.'; // 分离器
+var SUBSEPARATOR = ':'; // 子分离器
 
 /**
  * Escape and wrap key so it is safe to use as a reactid
+ * 修改成可以安全使用的reactid
  *
  * @param {string} key to be escaped.
  * @return {string} the escaped key.
@@ -51,13 +54,15 @@ function escape(key) {
 
 var didWarnAboutMaps = false;
 
+// 修改使用者提供的KEY
 var userProvidedKeyEscapeRegex = /\/+/g;
 function escapeUserProvidedKey(text) {
   return ('' + text).replace(userProvidedKeyEscapeRegex, '$&/');
 }
 
 var POOL_SIZE = 10;
-var traverseContextPool = [];
+var traverseContextPool = []; // 穿过上下文池
+// 获取合并(pooled)穿过的上下文
 function getPooledTraverseContext(
   mapResult,
   keyPrefix,
@@ -257,7 +262,7 @@ function forEachSingleChild(bookKeeping, child, name) {
 }
 
 /**
- * Iterates through children that are typically specified as `props.children`.
+ * Iterates(重复，迭代) through children that are typically(通常) specified(指定) as `props.children`.
  *
  * See https://reactjs.org/docs/react-api.html#react.children.foreach
  *
@@ -272,6 +277,7 @@ function forEachChildren(children, forEachFunc, forEachContext) {
   if (children == null) {
     return children;
   }
+  // 获取穿过的上下文
   var traverseContext = getPooledTraverseContext(
     null,
     null,

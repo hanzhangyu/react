@@ -7,7 +7,6 @@ import React, {Component, unstable_AsyncComponent} from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
-
 // 查看类及实例
 // console.log('React.Component', Component);
 // const reactComponent = new Component({msg: 'test'}, {contextMsg: 'contextMsg'});
@@ -32,17 +31,25 @@ class Test extends Component {
   }
 
   componentDidMount() {
+    // forEachContext这个参数还真没注意过
+    React.Children.forEach(this.props.children, (param) => {
+      console.log('child', param);
+    });
   }
 
   render() {
-    const {msg} = this.props;
+    const {msg} = this.context;
     return (
-      <div>{msg}</div>
+      <div>
+        <p>data:{msg}</p>
+        <p>child:</p>
+        {this.props.children}
+      </div>
     );
   }
 }
 
-Test.propTypes = {
+Test.contextTypes = {
   msg: PropTypes.string,
 };
 
@@ -52,13 +59,21 @@ Test.propTypes = {
 // console.log('testComponent', testComponent);
 
 
-// class App extends React.Component {
-//   render() {
-//     const node = <Test msg="hello word"/>;
-//     console.log('react element', node);
-//     console.log('this', this);
-//     return <div>{node}</div>;
-//   }
-// }
+class App extends React.Component {
+  getChildContext() {
+    return {msg: 'hello context'};
+  }
 
-ReactDOM.render(<Test msg="hello word"/>, document.getElementById('root'));
+  render() {
+    const node = <Test msg="hello props" key="qweqwe"><span>this is a child</span></Test>;
+    console.log('react element', node);
+    console.log('this', this);
+    return <div>{node}</div>;
+  }
+}
+
+App.childContextTypes = {
+  msg: PropTypes.string,
+};
+
+ReactDOM.render(<App msg="hello word"/>, document.getElementById('root'));

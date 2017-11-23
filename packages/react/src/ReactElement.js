@@ -27,7 +27,8 @@ var RESERVED_PROPS = {
 
 var specialPropKeyWarningShown, specialPropRefWarningShown; // 最多提示一次
 
-function hasValidRef(config) { // 检查props中是否有合法的ref
+// 检查props中是否有合法的ref
+function hasValidRef(config) {
   if (__DEV__) {
     if (hasOwnProperty.call(config, 'ref')) {
       // https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor
@@ -40,7 +41,8 @@ function hasValidRef(config) { // 检查props中是否有合法的ref
   return config.ref !== undefined;
 }
 
-function hasValidKey(config) { // 检查props中是否有合法的key
+// 检查props中是否有合法的key
+function hasValidKey(config) {
   if (__DEV__) {
     if (hasOwnProperty.call(config, 'key')) {
       var getter = Object.getOwnPropertyDescriptor(config, 'key').get;
@@ -54,15 +56,15 @@ function hasValidKey(config) { // 检查props中是否有合法的key
 
 // 定义(define)`key`的getter，获取时警告
 function defineKeyPropWarningGetter(props, displayName) {
-  var warnAboutAccessingKey = function() {
+  var warnAboutAccessingKey = function () {
     if (!specialPropKeyWarningShown) {
       specialPropKeyWarningShown = true;
       warning(
         false,
         '%s: `key` is not a prop. Trying to access it will result ' +
-          'in `undefined` being returned. If you need to access the same ' +
-          'value within the child component, you should pass it as a different ' +
-          'prop. (https://fb.me/react-special-props)',
+        'in `undefined` being returned. If you need to access the same ' +
+        'value within the child component, you should pass it as a different ' +
+        'prop. (https://fb.me/react-special-props)',
         displayName,
       );
     }
@@ -76,15 +78,15 @@ function defineKeyPropWarningGetter(props, displayName) {
 
 // 定义(define)`ref`的getter，获取时警告
 function defineRefPropWarningGetter(props, displayName) {
-  var warnAboutAccessingRef = function() {
+  var warnAboutAccessingRef = function () {
     if (!specialPropRefWarningShown) {
       specialPropRefWarningShown = true;
       warning(
         false,
         '%s: `ref` is not a prop. Trying to access it will result ' +
-          'in `undefined` being returned. If you need to access the same ' +
-          'value within the child component, you should pass it as a different ' +
-          'prop. (https://fb.me/react-special-props)',
+        'in `undefined` being returned. If you need to access the same ' +
+        'value within the child component, you should pass it as a different ' +
+        'prop. (https://fb.me/react-special-props)',
         displayName,
       );
     }
@@ -118,7 +120,7 @@ function defineRefPropWarningGetter(props, displayName) {
  * @param {*} props
  * @internal
  */
-var ReactElement = function(type, key, ref, self, source, owner, props) {
+var ReactElement = function (type, key, ref, self, source, owner, props) {
   var element = {
     // This tag allow us to uniquely identify this as a React Element
     $$typeof: REACT_ELEMENT_TYPE,
@@ -207,8 +209,8 @@ export function createElement(type, config, children) {
     // Remaining properties are added to a new props object
     for (propName in config) {
       if ( // 是自己的，并且不是保留字符就写入props
-        hasOwnProperty.call(config, propName) &&
-        !RESERVED_PROPS.hasOwnProperty(propName)
+      hasOwnProperty.call(config, propName) &&
+      !RESERVED_PROPS.hasOwnProperty(propName)
       ) {
         props[propName] = config[propName];
       }
@@ -275,18 +277,20 @@ export function createElement(type, config, children) {
 /**
  * Return a function that produces ReactElements of a given type.
  * See https://reactjs.org/docs/react-api.html#createfactory
+ * 与createElement区别不大，倒像是cE的Curry，如果使用JSX，会被转化为cE
  */
 export function createFactory(type) {
   var factory = createElement.bind(null, type);
-  // Expose the type on the factory and the prototype so that it can be
+  // Expose(使曝光) the type on the factory and the prototype so that it can be
   // easily accessed on elements. E.g. `<Foo />.type === Foo`.
   // This should not be named `constructor` since this may not be the function
   // that created the element, and it may not even be a constructor.
-  // Legacy hook TODO: Warn if this is accessed
+  // Legacy(遗留) hook TODO: Warn if this is accessed // 就是说不在推荐使用了吧。
   factory.type = type;
   return factory;
 }
 
+// 克隆一个RE，同时赋予一个新的KEY
 export function cloneAndReplaceKey(oldElement, newKey) {
   var newElement = ReactElement(
     oldElement.type,
@@ -311,17 +315,17 @@ export function cloneElement(element, config, children) {
   // Original props are copied
   var props = Object.assign({}, element.props);
 
-  // Reserved names are extracted
+  // Reserved(保留) names are extracted(提取)
   var key = element.key;
   var ref = element.ref;
-  // Self is preserved since the owner is preserved.
+  // Self is preserved(保存) since the owner is preserved.
   var self = element._self;
   // Source is preserved since cloneElement is unlikely to be targeted by a
-  // transpiler, and the original source is probably a better indicator of the
-  // true owner.
+  // transpiler(转译器), and the original source is probably a better indicator(指示器) of the
+  // true owner. // ？ 直接复制原始的source，而不是可能被编译过的source
   var source = element._source;
 
-  // Owner will be preserved, unless ref is overridden
+  // Owner will be preserved, unless(除非) ref is overridden(重写)
   var owner = element._owner;
 
   if (config != null) {
@@ -356,6 +360,7 @@ export function cloneElement(element, config, children) {
 
   // Children can be more than one argument, and those are transferred onto
   // the newly allocated props object.
+  // 讲真的我发现react源码有很多重复的代码，我也觉得没必要控制的那么死，花空间换时间，同时可读性也更高
   var childrenLength = arguments.length - 2;
   if (childrenLength === 1) {
     props.children = children;
