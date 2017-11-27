@@ -32,7 +32,7 @@ if (__DEV__) {
       return '#text';
     } else if (typeof element.type === 'string') {
       return element.type;
-    } else if (element.type === REACT_FRAGMENT_TYPE) {
+    } else if (element.type === REACT_FRAGMENT_TYPE) { // React.Fragment统一名称
       return 'React.Fragment';
     } else {
       return element.type.displayName || element.type.name || 'Unknown';
@@ -66,7 +66,7 @@ if (__DEV__) {
 var ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
 var FAUX_ITERATOR_SYMBOL = '@@iterator'; // Before Symbol spec.
 
-function getDeclarationErrorAddendum() { // declaration(声明)
+function getDeclarationErrorAddendum() { // declaration(声明)，获取代码声明的父级RE
   if (ReactCurrentOwner.current) {
     var name = getComponentName(ReactCurrentOwner.current);
     if (name) {
@@ -76,7 +76,7 @@ function getDeclarationErrorAddendum() { // declaration(声明)
   return '';
 }
 
-function getSourceInfoErrorAddendum(elementProps) { // addendum(附加物)
+function getSourceInfoErrorAddendum(elementProps) { // addendum(附加物)，获取代码来源文件信息
   if (
     elementProps !== null &&
     elementProps !== undefined &&

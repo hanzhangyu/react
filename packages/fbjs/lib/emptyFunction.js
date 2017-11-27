@@ -29,6 +29,7 @@ emptyFunction.thatReturnsNull = makeEmptyFunction(null);
 emptyFunction.thatReturnsThis = function () {
   return this;
 };
+// 返回接受到的第一个参数
 emptyFunction.thatReturnsArgument = function (arg) {
   return arg;
 };

@@ -184,6 +184,7 @@ var ReactElement = function (type, key, ref, self, source, owner, props) {
  * @param config 带筛选的props
  * @param children
  * 多余的参数和children也会被写到props的children中
+ * 当children不是对象也不是数组，而是散的(like: test<span></span>），会被babel写进后续的参数中
  */
 export function createElement(type, config, children) {
   var propName;

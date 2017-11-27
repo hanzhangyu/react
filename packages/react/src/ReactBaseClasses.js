@@ -23,7 +23,6 @@ import ReactNoopUpdateQueue from './ReactNoopUpdateQueue'; //  react 等待更�
  */
 function Component(props, context, updater) {
   this.props = props;
-  console.log('context in the component instantiate', context);
   this.context = context;
   this.refs = emptyObject;
   // We initialize the default updater but the real one gets injected by the
